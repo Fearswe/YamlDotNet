@@ -65,7 +65,7 @@ namespace YamlDotNet.Analyzers.StaticGenerator
             #endregion
 
             #region GetProperty
-            Write("public YamlDotNet.Serialization.IPropertyDescriptor GetProperty(Type type, object container, string name, bool ignoreUnmatched)");
+            Write("public YamlDotNet.Serialization.IPropertyDescriptor GetProperty(Type type, object container, string name, bool ignoreUnmatched, bool ignoreCase)");
             Write("{"); Indent();
             foreach (var o in classSyntaxReceiver.Classes)
             {

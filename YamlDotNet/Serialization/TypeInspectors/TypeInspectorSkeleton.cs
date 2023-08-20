@@ -31,10 +31,11 @@ namespace YamlDotNet.Serialization.TypeInspectors
     {
         public abstract IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container);
 
-        public IPropertyDescriptor GetProperty(Type type, object? container, string name, [MaybeNullWhen(true)] bool ignoreUnmatched)
+        public IPropertyDescriptor GetProperty(Type type, object? container, string name, [MaybeNullWhen(true)] bool ignoreUnmatched, bool ignoreCase)
         {
+
             var candidates = GetProperties(type, container)
-                .Where(p => p.Name == name);
+                .Where(p => p.Name.Equals(name, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal));
 
             using var enumerator = candidates.GetEnumerator();
             if (!enumerator.MoveNext())

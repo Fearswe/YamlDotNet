@@ -54,6 +54,7 @@ namespace YamlDotNet.Serialization
         private readonly ITypeConverter typeConverter;
         private readonly Dictionary<Type, Type> typeMappings;
         private bool ignoreUnmatched;
+        private bool ignoreCase;
         private bool duplicateKeyChecking;
         private bool attemptUnknownTypeDeserialization;
 
@@ -91,7 +92,7 @@ namespace YamlDotNet.Serialization
                 { typeof(StaticArrayNodeDeserializer), _ => new StaticArrayNodeDeserializer(factory) },
                 { typeof(StaticDictionaryNodeDeserializer), _ => new StaticDictionaryNodeDeserializer(factory, duplicateKeyChecking) },
                 { typeof(StaticCollectionNodeDeserializer), _ => new StaticCollectionNodeDeserializer(factory) },
-                { typeof(ObjectNodeDeserializer), _ => new ObjectNodeDeserializer(factory, BuildTypeInspector(), ignoreUnmatched, duplicateKeyChecking, typeConverter) },
+                { typeof(ObjectNodeDeserializer), _ => new ObjectNodeDeserializer(factory, BuildTypeInspector(), ignoreUnmatched, duplicateKeyChecking, typeConverter, ignoreCase) },
             };
 
             nodeTypeResolverFactories = new LazyComponentRegistrationList<Nothing, INodeTypeResolver>
@@ -392,6 +393,15 @@ namespace YamlDotNet.Serialization
         {
             duplicateKeyChecking = true;
             return this;
+        }
+
+        /// <summary>
+        /// Sets if case should be ignored for matching property names when deserializing.
+        /// </summary>
+        public StaticDeserializerBuilder IgnoreCase()
+        {
+            this.ignoreCase = true;
+            return Self;
         }
 
         /// <summary>
